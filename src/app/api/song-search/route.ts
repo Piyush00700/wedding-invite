@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
       {
         method: "GET",
         headers: {
-          "x-rapidapi-key": "d09ebb5172msh21cdf170c968699p111f63jsn679b2b551a10",
+          "x-rapidapi-key": process.env.RAPIDAPI_KEY || "d09ebb5172msh21cdf170c968699p111f63jsn679b2b551a10",
           "x-rapidapi-host": "youtube-music-api3.p.rapidapi.com",
         },
         // Cache for 60s — same query won't re-hit RapidAPI within a minute
