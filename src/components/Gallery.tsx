@@ -4,14 +4,14 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-/* picsum images with wedding-ish seeds */
+/* Real couple photos */
 const IMAGES = [
-  { src: "https://picsum.photos/seed/wedding1/600/800", w: 600, h: 800, alt: "Bridal portrait" },
-  { src: "https://picsum.photos/seed/wedding2/700/500", w: 700, h: 500, alt: "Couple outdoors" },
-  { src: "https://picsum.photos/seed/wedding3/600/600", w: 600, h: 600, alt: "Candid moment" },
-  { src: "https://picsum.photos/seed/wedding4/600/900", w: 600, h: 900, alt: "Venue decor" },
-  { src: "https://picsum.photos/seed/wedding5/700/500", w: 700, h: 500, alt: "Celebration" },
-  { src: "https://picsum.photos/seed/wedding6/600/700", w: 600, h: 700, alt: "Together forever" },
+  { src: "/gallery/photo1.jpeg", w: 576, h: 1024, alt: "A sweet moment together" },
+  { src: "/gallery/photo2.jpeg", w: 750, h: 900, alt: "Smiling together" },
+  { src: "/gallery/photo3.jpeg", w: 810, h: 1080, alt: "The ring ceremony" },
+  { src: "/gallery/photo4.png",  w: 810, h: 608,  alt: "Rings & bangles" },
+  { src: "/gallery/photo5.jpeg", w: 810, h: 1080, alt: "A day out at Kalsang" },
+  { src: "/gallery/photo6.jpeg", w: 810, h: 1080, alt: "Together always" },
 ];
 
 export default function Gallery() {

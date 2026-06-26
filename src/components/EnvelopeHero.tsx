@@ -25,14 +25,18 @@ const PETAL_COLORS = [
 ];
 
 export default function EnvelopeHero() {
+  const [isOpen, setIsOpen] = useState(false);
   const [envelopeGone, setEnvelopeGone] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   /* petals generated client-side only to avoid SSR hydration mismatch */
   const [petals, setPetals] = useState<Petal[]>([]);
 
   useEffect(() => {
-    /* remove envelope overlay after animation ends */
-    const timer = setTimeout(() => setEnvelopeGone(true), 3700);
+    /* Auto-open envelope after a short delay */
+    const openTimer = setTimeout(() => setIsOpen(true), 800);
+
+    /* Fade out envelope overlay after animations complete */
+    const goneTimer = setTimeout(() => setEnvelopeGone(true), 4000);
 
     /* generate random petals only on client */
     setPetals(
@@ -47,8 +51,15 @@ export default function EnvelopeHero() {
       }))
     );
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(openTimer);
+      clearTimeout(goneTimer);
+    };
   }, []);
+
+  const handleOpenClick = () => {
+    setIsOpen(true);
+  };
 
   const scrollDown = () => {
     const next = document.getElementById("countdown");
@@ -57,6 +68,18 @@ export default function EnvelopeHero() {
 
   return (
     <>
+      {/* Definitions for shared SVG gradients (e.g. gold gradient) */}
+      <svg width="0" height="0" style={{ position: "absolute" }}>
+        <defs>
+          <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FFF2B2" />
+            <stop offset="30%" stopColor="#D4AF37" />
+            <stop offset="70%" stopColor="#AA7C11" />
+            <stop offset="100%" stopColor="#F3E5AB" />
+          </linearGradient>
+        </defs>
+      </svg>
+
       {/* ── Envelope overlay ── */}
       <AnimatePresence>
         {!envelopeGone && (
@@ -65,23 +88,72 @@ export default function EnvelopeHero() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="envelope">
-              <div className="env-body">
-                <div className="env-flap" />
-                <div className="env-seal">✦</div>
-                <div className="env-card">
-                  <p
-                    style={{
-                      fontFamily: "var(--font-cormorant), serif",
-                      color: "var(--maroon)",
-                      fontSize: "1.1rem",
-                      fontStyle: "italic",
-                      letterSpacing: "0.05em",
-                    }}
-                  >
-                    You are cordially invited…
-                  </p>
+            <div 
+              className={`envelope-container ${isOpen ? "open" : ""}`}
+              onClick={handleOpenClick}
+            >
+              <div className="envelope-3d">
+                
+                {/* 1. Envelope Back */}
+                <div className="env-back" />
+
+                {/* 2. Top Flap (folds open upwards) */}
+                <div className="env-top-flap">
+                  <svg viewBox="0 0 100 50" preserveAspectRatio="none" className="env-flap-svg">
+                    <polygon points="0,0 100,0 50,50" fill="#600000" />
+                    <polyline points="0,0 50,50 100,0" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                  </svg>
                 </div>
+
+                {/* 3. Invitation Card (slides out of envelope pocket) */}
+                <div className="env-card">
+                  <div className="env-card-border">
+                    <div className="env-card-pattern">✦</div>
+                    <span className="env-card-sub">WEDDING INVITATION</span>
+                    <h2 className="env-card-names">Nivedita &amp; Abhishek</h2>
+                    
+                    <div className="env-card-divider">
+                      <span className="env-divider-line" />
+                      <span className="env-divider-dot">✦</span>
+                      <span className="env-divider-line" />
+                    </div>
+                    
+                    <p className="env-card-date">25 · NOVEMBER · 2026</p>
+                    <p className="env-card-location">PEERAGARHI, DELHI</p>
+                  </div>
+                </div>
+
+                {/* 4. Left Flap */}
+                <div className="env-left-flap">
+                  <svg viewBox="0 0 50 100" preserveAspectRatio="none" className="env-flap-svg">
+                    <polygon points="0,0 50,50 0,100" fill="#750505" />
+                    <polyline points="0,0 50,50 0,100" fill="none" stroke="url(#gold-grad)" strokeWidth="0.75" />
+                  </svg>
+                </div>
+
+                {/* 5. Right Flap */}
+                <div className="env-right-flap">
+                  <svg viewBox="0 0 50 100" preserveAspectRatio="none" className="env-flap-svg">
+                    <polygon points="50,0 0,50 50,100" fill="#750505" />
+                    <polyline points="50,0 0,50 50,100" fill="none" stroke="url(#gold-grad)" strokeWidth="0.75" />
+                  </svg>
+                </div>
+
+                {/* 6. Bottom Flap */}
+                <div className="env-bottom-flap">
+                  <svg viewBox="0 0 100 50" preserveAspectRatio="none" className="env-flap-svg">
+                    <polygon points="0,50 50,0 100,50" fill="#800808" />
+                    <polyline points="0,50 50,0 100,50" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                  </svg>
+                </div>
+
+                {/* 7. Wax Seal (fades out as envelope opens) */}
+                <div className="env-seal-wrapper">
+                  <div className="env-seal">
+                    <span className="env-seal-icon">✦</span>
+                  </div>
+                </div>
+
               </div>
             </div>
           </motion.div>

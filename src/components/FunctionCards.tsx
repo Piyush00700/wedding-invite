@@ -12,6 +12,8 @@ const EVENTS = [
     venue: "Our Home",
     bg: "#90BE6D",
     textColor: "#1a3a0a",
+    overlayColor: "rgba(144,190,109,0.55)",
+    bgImage: "/event-bg/mehendi.png",
     mapsUrl: "https://maps.google.com/?q=Peeragarhi+Delhi",
   },
   {
@@ -22,6 +24,8 @@ const EVENTS = [
     venue: "Mapple Gold Banquets, Peeragarhi",
     bg: "#F9C74F",
     textColor: "#3a2800",
+    overlayColor: "rgba(249,199,79,0.55)",
+    bgImage: "/event-bg/haldi.png",
     mapsUrl:
       "https://maps.google.com/?q=Mapple+Gold+Banquets+Peeragarhi+Delhi",
   },
@@ -33,6 +37,8 @@ const EVENTS = [
     venue: "Mapple Gold Banquets, Peeragarhi",
     bg: "#6A4C93",
     textColor: "#f5e6ff",
+    overlayColor: "rgba(106,76,147,0.60)",
+    bgImage: "/event-bg/sangeet.png",
     mapsUrl:
       "https://maps.google.com/?q=Mapple+Gold+Banquets+Peeragarhi+Delhi",
   },
@@ -44,6 +50,8 @@ const EVENTS = [
     venue: "Mapple Gold Banquets, Peeragarhi",
     bg: "#8B0000",
     textColor: "#D4AF37",
+    overlayColor: "rgba(139,0,0,0.62)",
+    bgImage: "/event-bg/wedding.png",
     mapsUrl:
       "https://maps.google.com/?q=Mapple+Gold+Banquets+Peeragarhi+Delhi",
   },
@@ -130,42 +138,60 @@ export default function FunctionCards() {
                 backgroundColor: event.bg,
                 color: event.textColor,
                 boxShadow: `0 8px 30px ${event.bg}55`,
+                backgroundImage: `url(${event.bgImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
-              <span className="event-icon">{event.icon}</span>
-              <h3
-                className="event-name"
-                style={{ color: event.textColor }}
-              >
-                {event.name}
-              </h3>
-              <div className="event-details" style={{ color: event.textColor }}>
-                <div className="event-detail-row">
-                  <CalIcon />
-                  <span>{event.date}</span>
+              {/* Colour overlay so text stays readable */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: event.overlayColor,
+                  backdropFilter: "blur(1px)",
+                  zIndex: 0,
+                }}
+              />
+              {/* Card content above overlay */}
+              <div style={{ position: "relative", zIndex: 1 }}>
+                <span className="event-icon">{event.icon}</span>
+                <h3
+                  className="event-name"
+                  style={{ color: event.textColor }}
+                >
+                  {event.name}
+                </h3>
+                <div className="event-details" style={{ color: event.textColor }}>
+                  <div className="event-detail-row">
+                    <CalIcon />
+                    <span>{event.date}</span>
+                  </div>
+                  <div className="event-detail-row">
+                    <ClockIcon />
+                    <span>{event.time}</span>
+                  </div>
+                  <div className="event-detail-row">
+                    <PinIcon />
+                    <span>{event.venue}</span>
+                  </div>
                 </div>
-                <div className="event-detail-row">
-                  <ClockIcon />
-                  <span>{event.time}</span>
-                </div>
-                <div className="event-detail-row">
-                  <PinIcon />
-                  <span>{event.venue}</span>
-                </div>
+                <a
+                  href={event.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="directions-btn"
+                  style={{ color: event.textColor }}
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                    <circle cx="12" cy="9" r="2.5" />
+                  </svg>
+                  Get Directions
+                </a>
               </div>
-              <a
-                href={event.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="directions-btn"
-                style={{ color: event.textColor }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-                  <circle cx="12" cy="9" r="2.5" />
-                </svg>
-                Get Directions
-              </a>
             </div>
           ))}
         </div>
