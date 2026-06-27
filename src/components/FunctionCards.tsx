@@ -45,7 +45,7 @@ const EVENTS = [
   {
     name: "Wedding Ceremony",
     icon: "🔥",
-    date: "Tuesday, 24 November 2026",
+    date: "Wednesday, 25 November 2026",
     time: "8:00 PM onwards",
     venue: "Mapple Gold Banquets, Peeragarhi",
     bg: "#8B0000",
