@@ -1030,25 +1030,122 @@ h4 {
 }
 
 /* =====================================================
-   RESPONSIVE
+   RESPONSIVE — Tablet (≤ 900px)
+   ===================================================== */
+@media (max-width: 900px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rsvp-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* =====================================================
+   RESPONSIVE — Mobile (≤ 640px)
    ===================================================== */
 @media (max-width: 640px) {
   .checkbox-group {
     grid-template-columns: 1fr;
   }
 
-  .countdown-grid {
-    gap: 0.75rem;
+  /* Keep original masonry columns but style for mobile */
+  .gallery-grid {
+    columns: 2 160px;
+    column-gap: 0.75rem;
   }
 
+  .gallery-item {
+    margin-bottom: 0.75rem;
+  }
+
+  /* Cards: single column */
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* Countdown */
+  .countdown-grid {
+    gap: 0.6rem;
+  }
   .countdown-separator {
     display: none;
   }
-
-  .gallery-grid {
-    columns: 2 160px;
+  .countdown-number {
+    font-size: clamp(2rem, 10vw, 3.5rem);
   }
 
-  .lightbox-prev { left: 0.5rem; }
-  .lightbox-next { right: 0.5rem; }
+  /* Lightbox nav */
+  .lightbox-prev { left: 0.4rem; }
+  .lightbox-next { right: 0.4rem; }
+
+  /* Envelope scaling on mobile */
+  .envelope-container {
+    width: min(320px, 92vw);
+    height: min(220px, 55vw);
+  }
+
+  /* Hero section padding */
+  .hero-section {
+    padding: 5rem 1rem 3rem;
+  }
+
+  /* RSVP card */
+  .rsvp-card {
+    padding: 1.5rem 1rem;
+    border-radius: 14px;
+  }
+
+  /* Radio group: wrap */
+  .radio-group {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 3rem 1rem 1.5rem;
+  }
+
+  /* Section padding */
+  .functions-section,
+  .gallery-section,
+  .rsvp-section,
+  .countdown-section {
+    padding: 4rem 1rem;
+  }
+
+  /* Divider max-width */
+  .divider {
+    padding: 0 1rem;
+  }
 }
+
+/* =====================================================
+   RESPONSIVE — Small mobile (≤ 400px)
+   ===================================================== */
+@media (max-width: 400px) {
+  .hero-names {
+    font-size: clamp(2.5rem, 14vw, 4rem);
+  }
+
+  .countdown-box {
+    min-width: clamp(60px, 20vw, 90px);
+  }
+}
+
+@keyframes env-cue-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.05); }
+}
+
+@media (max-width: 1024px) {
+  .env-side-deco-left,
+  .env-side-deco-right {
+    display: none !important;
+  }
+}
+
+

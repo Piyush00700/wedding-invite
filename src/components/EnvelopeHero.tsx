@@ -24,6 +24,12 @@ const PETAL_COLORS = [
   "#f0a0c0",
 ];
 
+declare global {
+  interface Window {
+    __startMusic?: () => void;
+  }
+}
+
 export default function EnvelopeHero() {
   const [isOpen, setIsOpen] = useState(false);
   const [envelopeGone, setEnvelopeGone] = useState(false);
@@ -32,12 +38,6 @@ export default function EnvelopeHero() {
   const [petals, setPetals] = useState<Petal[]>([]);
 
   useEffect(() => {
-    /* Auto-open envelope after a short delay */
-    const openTimer = setTimeout(() => setIsOpen(true), 800);
-
-    /* Fade out envelope overlay after animations complete */
-    const goneTimer = setTimeout(() => setEnvelopeGone(true), 4000);
-
     /* generate random petals only on client */
     setPetals(
       Array.from({ length: 18 }, (_, i) => ({
@@ -50,15 +50,20 @@ export default function EnvelopeHero() {
         rotate: `${Math.random() * 360}deg`,
       }))
     );
-
-    return () => {
-      clearTimeout(openTimer);
-      clearTimeout(goneTimer);
-    };
   }, []);
 
+  /* Fade out envelope overlay after animations complete */
+  useEffect(() => {
+    if (!isOpen) return;
+    const goneTimer = setTimeout(() => setEnvelopeGone(true), 3200);
+    return () => clearTimeout(goneTimer);
+  }, [isOpen]);
+
   const handleOpenClick = () => {
+    if (isOpen) return;
     setIsOpen(true);
+    /* Start background music (instantly bypasses browser restrictions since it's user-initiated) */
+    window.__startMusic?.();
   };
 
   const scrollDown = () => {
@@ -87,7 +92,204 @@ export default function EnvelopeHero() {
             className="envelope-wrapper"
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
+            style={{ position: "fixed", inset: 0, overflow: "hidden" }}
           >
+            {/* Traditional Indian hanging marigold Toran (garland) at the top */}
+            <div style={{
+              position: "absolute",
+              top: 0,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "100%",
+              maxWidth: "1200px",
+              height: "80px",
+              opacity: 0.1,
+              pointerEvents: "none",
+              zIndex: 0,
+            }}>
+              <svg viewBox="0 0 1000 80" width="100%" height="100%" preserveAspectRatio="none">
+                {/* Dotted string */}
+                <line x1="0" y1="10" x2="1000" y2="10" stroke="url(#gold-grad)" strokeWidth="1.5" strokeDasharray="3 4" />
+                {/* Garland arcs and hanging marigold flowers / mango leaves */}
+                {Array.from({ length: 15 }, (_, i) => {
+                  const cx = (i * 70) + 35;
+                  return (
+                    <g key={i}>
+                      {/* Swag line */}
+                      <path d={`M ${cx - 35} 10 Q ${cx} 30 ${cx + 35} 10`} fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                      {/* Hanging marigold bells */}
+                      <line x1={cx} y1="10" x2={cx} y2="45" stroke="url(#gold-grad)" strokeWidth="1" />
+                      <circle cx={cx} cy="45" r="5" fill="url(#gold-grad)" />
+                      <circle cx={cx} cy="52" r="3" fill="url(#gold-grad)" />
+                      {/* Mango leaves (triangles) */}
+                      <polygon points={`${cx-35},10 ${cx-30},28 ${cx-40},28`} fill="url(#gold-grad)" opacity="0.8" />
+                    </g>
+                  );
+                })}
+              </svg>
+            </div>
+
+            {/* Corner Illustrations - Top Left */}
+            <div style={{
+              position: "absolute",
+              top: "-20px",
+              left: "-20px",
+              width: "clamp(120px, 25vw, 220px)",
+              height: "clamp(120px, 25vw, 220px)",
+              opacity: 0.08,
+              pointerEvents: "none",
+              zIndex: 0,
+            }}>
+              <svg viewBox="0 0 200 200" width="100%" height="100%">
+                <path d="M 0,0 C 50,0 120,40 120,120 C 120,60 180,20 200,0 C 150,50 150,150 0,200 Z" fill="none" stroke="url(#gold-grad)" strokeWidth="1.5" />
+                <circle cx="40" cy="40" r="15" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                <circle cx="80" cy="80" r="10" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                <path d="M 10,10 Q 50,20 100,100" fill="none" stroke="url(#gold-grad)" strokeWidth="1" strokeDasharray="3 3" />
+              </svg>
+            </div>
+
+            {/* Corner Illustrations - Top Right */}
+            <div style={{
+              position: "absolute",
+              top: "-20px",
+              right: "-20px",
+              width: "clamp(120px, 25vw, 220px)",
+              height: "clamp(120px, 25vw, 220px)",
+              opacity: 0.08,
+              pointerEvents: "none",
+              zIndex: 0,
+              transform: "scaleX(-1)",
+            }}>
+              <svg viewBox="0 0 200 200" width="100%" height="100%">
+                <path d="M 0,0 C 50,0 120,40 120,120 C 120,60 180,20 200,0 C 150,50 150,150 0,200 Z" fill="none" stroke="url(#gold-grad)" strokeWidth="1.5" />
+                <circle cx="40" cy="40" r="15" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                <circle cx="80" cy="80" r="10" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                <path d="M 10,10 Q 50,20 100,100" fill="none" stroke="url(#gold-grad)" strokeWidth="1" strokeDasharray="3 3" />
+              </svg>
+            </div>
+
+            {/* Corner Illustrations - Bottom Left */}
+            <div style={{
+              position: "absolute",
+              bottom: "-20px",
+              left: "-20px",
+              width: "clamp(120px, 25vw, 220px)",
+              height: "clamp(120px, 25vw, 220px)",
+              opacity: 0.08,
+              pointerEvents: "none",
+              zIndex: 0,
+              transform: "scaleY(-1)",
+            }}>
+              <svg viewBox="0 0 200 200" width="100%" height="100%">
+                <path d="M 0,0 C 50,0 120,40 120,120 C 120,60 180,20 200,0 C 150,50 150,150 0,200 Z" fill="none" stroke="url(#gold-grad)" strokeWidth="1.5" />
+                <circle cx="40" cy="40" r="15" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                <circle cx="80" cy="80" r="10" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                <path d="M 10,10 Q 50,20 100,100" fill="none" stroke="url(#gold-grad)" strokeWidth="1" strokeDasharray="3 3" />
+              </svg>
+            </div>
+
+            {/* Corner Illustrations - Bottom Right */}
+            <div style={{
+              position: "absolute",
+              bottom: "-20px",
+              right: "-20px",
+              width: "clamp(120px, 25vw, 220px)",
+              height: "clamp(120px, 25vw, 220px)",
+              opacity: 0.08,
+              pointerEvents: "none",
+              zIndex: 0,
+              transform: "scale(-1)",
+            }}>
+              <svg viewBox="0 0 200 200" width="100%" height="100%">
+                <path d="M 0,0 C 50,0 120,40 120,120 C 120,60 180,20 200,0 C 150,50 150,150 0,200 Z" fill="none" stroke="url(#gold-grad)" strokeWidth="1.5" />
+                <circle cx="40" cy="40" r="15" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                <circle cx="80" cy="80" r="10" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                <path d="M 10,10 Q 50,20 100,100" fill="none" stroke="url(#gold-grad)" strokeWidth="1" strokeDasharray="3 3" />
+              </svg>
+            </div>
+
+            {/* Left Side Hanging Diya/Bell Decoration (Hidden on mobile) */}
+            <div className="env-side-deco-left" style={{
+              position: "absolute",
+              top: "20%",
+              left: "4%",
+              width: "80px",
+              height: "300px",
+              opacity: 0.08,
+              pointerEvents: "none",
+              zIndex: 0,
+            }}>
+              <svg viewBox="0 0 80 300" width="100%" height="100%">
+                {/* Hanging chain */}
+                <line x1="40" y1="0" x2="40" y2="280" stroke="url(#gold-grad)" strokeWidth="1.5" strokeDasharray="4 4" />
+                
+                {/* Decorative element 1 */}
+                <circle cx="40" cy="60" r="10" fill="none" stroke="url(#gold-grad)" strokeWidth="1.2" />
+                <path d="M 30,60 L 40,45 L 50,60 Z" fill="url(#gold-grad)" />
+                
+                {/* Decorative element 2 (Mandala bead) */}
+                <circle cx="40" cy="140" r="16" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                <circle cx="40" cy="140" r="8" fill="none" stroke="url(#gold-grad)" strokeWidth="0.8" />
+                {Array.from({ length: 8 }, (_, i) => {
+                  const angle = (i * 360) / 8;
+                  const rad = (angle * Math.PI) / 180;
+                  return <line key={i} x1={40 + 8 * Math.cos(rad)} y1={140 + 8 * Math.sin(rad)} x2={40 + 16 * Math.cos(rad)} y2={140 + 16 * Math.sin(rad)} stroke="url(#gold-grad)" strokeWidth="0.6" />;
+                })}
+
+                {/* Hanging Diya Lamp at the bottom */}
+                <g transform="translate(40, 240)">
+                  {/* Oil Lamp bowl */}
+                  <path d="M -25,0 C -25,18 25,18 25,0 C 20,-8 10,-12 0,-12 C -10,-12 -20,-8 -25,0 Z" fill="none" stroke="url(#gold-grad)" strokeWidth="1.5" />
+                  {/* Diya flame */}
+                  <path d="M 0,-12 C -4,-18 0,-28 0,-28 C 0,-28 4,-18 0,-12 Z" fill="url(#gold-grad)" />
+                  {/* Hanging bell underneath */}
+                  <path d="M -8,12 L 8,12 L 5,24 L -5,24 Z" fill="none" stroke="url(#gold-grad)" strokeWidth="1.2" />
+                  <circle cx="0" cy="27" r="2.5" fill="url(#gold-grad)" />
+                </g>
+              </svg>
+            </div>
+
+            {/* Right Side Hanging Diya/Bell Decoration (Hidden on mobile) */}
+            <div className="env-side-deco-right" style={{
+              position: "absolute",
+              top: "20%",
+              right: "4%",
+              width: "80px",
+              height: "300px",
+              opacity: 0.08,
+              pointerEvents: "none",
+              zIndex: 0,
+            }}>
+              <svg viewBox="0 0 80 300" width="100%" height="100%">
+                {/* Hanging chain */}
+                <line x1="40" y1="0" x2="40" y2="280" stroke="url(#gold-grad)" strokeWidth="1.5" strokeDasharray="4 4" />
+                
+                {/* Decorative element 1 */}
+                <circle cx="40" cy="60" r="10" fill="none" stroke="url(#gold-grad)" strokeWidth="1.2" />
+                <path d="M 30,60 L 40,45 L 50,60 Z" fill="url(#gold-grad)" />
+                
+                {/* Decorative element 2 (Mandala bead) */}
+                <circle cx="40" cy="140" r="16" fill="none" stroke="url(#gold-grad)" strokeWidth="1" />
+                <circle cx="40" cy="140" r="8" fill="none" stroke="url(#gold-grad)" strokeWidth="0.8" />
+                {Array.from({ length: 8 }, (_, i) => {
+                  const angle = (i * 360) / 8;
+                  const rad = (angle * Math.PI) / 180;
+                  return <line key={i} x1={40 + 8 * Math.cos(rad)} y1={140 + 8 * Math.sin(rad)} x2={40 + 16 * Math.cos(rad)} y2={140 + 16 * Math.sin(rad)} stroke="url(#gold-grad)" strokeWidth="0.6" />;
+                })}
+
+                {/* Hanging Diya Lamp at the bottom */}
+                <g transform="translate(40, 240)">
+                  {/* Oil Lamp bowl */}
+                  <path d="M -25,0 C -25,18 25,18 25,0 C 20,-8 10,-12 0,-12 C -10,-12 -20,-8 -25,0 Z" fill="none" stroke="url(#gold-grad)" strokeWidth="1.5" />
+                  {/* Diya flame */}
+                  <path d="M 0,-12 C -4,-18 0,-28 0,-28 C 0,-28 4,-18 0,-12 Z" fill="url(#gold-grad)" />
+                  {/* Hanging bell underneath */}
+                  <path d="M -8,12 L 8,12 L 5,24 L -5,24 Z" fill="none" stroke="url(#gold-grad)" strokeWidth="1.2" />
+                  <circle cx="0" cy="27" r="2.5" fill="url(#gold-grad)" />
+                </g>
+              </svg>
+            </div>
+
             <div 
               className={`envelope-container ${isOpen ? "open" : ""}`}
               onClick={handleOpenClick}
@@ -156,6 +358,33 @@ export default function EnvelopeHero() {
 
               </div>
             </div>
+            {!isOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.8 }}
+                style={{
+                  position: "absolute",
+                  bottom: "9%",
+                  pointerEvents: "none",
+                  textAlign: "center",
+                  padding: "0 1rem",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-pinyon), cursive",
+                    fontSize: "clamp(2.8rem, 8vw, 4rem)",
+                    color: "#FFF2B2",
+                    textShadow: "0 0 16px rgba(212,175,55,0.45), 0 2px 5px rgba(0,0,0,0.6)",
+                    animation: "env-cue-pulse 2s ease-in-out infinite",
+                    display: "block",
+                  }}
+                >
+                  Tap to Open
+                </span>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

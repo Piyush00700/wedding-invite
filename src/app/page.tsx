@@ -6,10 +6,14 @@ import RSVPForm from "@/components/RSVPForm";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Divider from "@/components/Divider";
+import MusicPlayer from "@/components/MusicPlayer";
 
 export default function Home() {
   return (
     <>
+      {/* Background music player */}
+      <MusicPlayer />
+
       {/* Sticky navigation */}
       <Navbar />
 
