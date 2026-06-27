@@ -312,7 +312,7 @@ export default function EnvelopeHero() {
                   <div className="env-card-border">
                     <div className="env-card-pattern">✦</div>
                     <span className="env-card-sub">WEDDING INVITATION</span>
-                    <h2 className="env-card-names">Nivedita &amp; Abhishek</h2>
+                    <h2 className="env-card-names">Abhishek &amp; Nivedita</h2>
                     
                     <div className="env-card-divider">
                       <span className="env-divider-line" />
@@ -496,9 +496,9 @@ export default function EnvelopeHero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 4.0, duration: 1, ease: "easeOut" }}
           >
-            Nivedita
-            <span className="hero-ampersand">&amp;</span>
             Abhishek
+            <span className="hero-ampersand">&amp;</span>
+            Nivedita
           </motion.h1>
 
           {/* Date */}

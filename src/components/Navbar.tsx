@@ -63,7 +63,7 @@ export default function Navbar() {
         }}
         onClick={() => handleNav("#home")}
       >
-        N &amp; A
+        A &amp; N
       </div>
 
       {/* Desktop Links */}

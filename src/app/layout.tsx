@@ -25,11 +25,11 @@ const pinyon = Pinyon_Script({
 });
 
 export const metadata: Metadata = {
-  title: "Nivedita & Abhishek | Wedding Invitation · 25 November 2026",
+  title: "Abhishek & Nivedita | Wedding Invitation · 25 November 2026",
   description:
-    "You are cordially invited to celebrate the wedding of Nivedita Jha & Abhishek Gupta on 25 November 2026 at Mapple Gold Banquets, Peeragarhi.",
+    "You are cordially invited to celebrate the wedding of Abhishek Gupta & Nivedita Jha on 25 November 2026 at Mapple Gold Banquets, Peeragarhi.",
   openGraph: {
-    title: "Nivedita & Abhishek | Wedding Invitation",
+    title: "Abhishek & Nivedita | Wedding Invitation",
     description: "Join us as we begin forever — 25 November 2026",
     type: "website",
   },

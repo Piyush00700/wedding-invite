@@ -132,7 +132,7 @@ export default function RSVPForm() {
                   We can&apos;t wait to celebrate with you! 🎊
                   <br />
                   <span style={{ color: "var(--gold)", fontStyle: "italic" }}>
-                    With love, Nivedita &amp; Abhishek
+                    With love, Abhishek &amp; Nivedita
                   </span>
                 </p>
               </motion.div>

@@ -96,7 +96,7 @@ export default function Footer() {
         </div>
 
         {/* Names */}
-        <p className="footer-names">Nivedita &amp; Abhishek</p>
+        <p className="footer-names">Abhishek &amp; Nivedita</p>
         <p className="footer-tagline">25 November 2026 · Mapple Gold Banquets, Peeragarhi</p>
 
         {/* Gold ornament */}
@@ -147,7 +147,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <p className="footer-copy">
-          Made with ❤️ · Nivedita &amp; Abhishek · 2026
+          Made with ❤️ · Abhishek &amp; Nivedita · 2026
         </p>
       </motion.div>
     </footer>
